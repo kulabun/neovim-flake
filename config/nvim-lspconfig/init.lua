@@ -30,74 +30,86 @@ local on_attach = function(client, bufnr)
   end, bufopts)
 end
 
--- ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
--- if ok then
---   local capabilities = require('cmp_nvim_lsp').default_capabilities()
--- end
+local capabilities = nil
+local ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if ok then
+  capabilities = cmp_nvim_lsp.default_capabilities()
+end
 
 -- Haskell
 require("lspconfig")["hls"].setup({
   on_attach = on_attach,
   filetypes = { "haskell", "lhaskell" },
+  capabilities = capabilities,
 })
 
 -- Python 
 require("lspconfig")["pyright"].setup({
   on_attach = on_attach,
   filetypes = { "python" },
+  capabilities = capabilities,
 })
 
 -- Nix
 require("lspconfig")["rnix"].setup({
   on_attach = on_attach,
   filetypes = { "nix" },
+  capabilities = capabilities,
 })
 
 -- Lua
 require("lspconfig")["sumneko_lua"].setup({
   on_attach = on_attach,
   filetypes = { "lua" },
+  capabilities = capabilities,
 })
 
 -- JavaScript, TypeScript
 require("lspconfig")["tsserver"].setup({
   on_attach = on_attach,
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  capabilities = capabilities,
 })
 require("lspconfig")["eslint"].setup({
   on_attach = on_attach,
   filetypes = { "javascript", "javascriptreact", "javascript.jsx" },
+  capabilities = capabilities,
 })
 
 -- CSS
 require("lspconfig")["cssls"].setup({
   on_attach = on_attach,
   filetypes = { "css", "scss" },
+  capabilities = capabilities,
 })
 
 -- HTML
 require("lspconfig")["html"].setup({
   on_attach = on_attach,
   filetypes = { "html" },
+  capabilities = capabilities,
 })
 
 -- JSON
 require("lspconfig")["jsonls"].setup({
   on_attach = on_attach,
   filetypes = { "json", "jsonc" },
+  capabilities = capabilities,
 })
 
 -- Bash
 require("lspconfig")["bashls"].setup({
   on_attach = on_attach,
   filetypes = { "bash", "sh", "zsh" },
+  capabilities = capabilities,
 })
 
 
 -- Go
 require("lspconfig")["gopls"].setup({
   on_attach = on_attach,
-  filetypes = { "go" },
+  filetypes = { "go", "gomod" },
+  capabilities = capabilities,
 })
 
 -- Rust
@@ -107,4 +119,5 @@ require("lspconfig")["rust_analyzer"].setup({
     ["rust-analyzer"] = {},
   },
   filetypes = { "rust" },
+  capabilities = capabilities,
 })
