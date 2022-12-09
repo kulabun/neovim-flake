@@ -37,6 +37,7 @@ cmp.setup({
       require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
+  preselect = cmp.PreselectMode.None,
   formatting = {
     -- fields = { "kind", "abbr", "menu" },
     fields = { "abbr", "menu", "kind" },
@@ -77,10 +78,10 @@ cmp.setup({
     }),
     insert_text = require("copilot_cmp.format").remove_existing,
   },
-  -- completion = {
-  --   autocomplete = false,
-  --   completeopt = "menu,menuone,noinsert",
-  -- },
+  completion = {
+    autocomplete = false,
+    completeopt = "menu,menuone,noselect,noinsert",
+  },
   sorting = {
     priority_weight = 2,
     comparators = {
@@ -173,3 +174,34 @@ vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
 vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
+
+-- Taken from https://github.com/hrsh7th/nvim-cmp/issues/519
+vim.api.nvim_create_autocmd(
+  { "TextChangedI", "TextChangedP" },
+  {
+    callback = function()
+      local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+      if buftype == "prompt" then
+        require('cmp').close()
+        return
+      end
+
+
+      local line = vim.api.nvim_get_current_line()
+      local cursor = vim.api.nvim_win_get_cursor(0)[2]
+
+      local current = string.sub(line, cursor, cursor + 1)
+      if current == "." or current == "," or current == " " then
+        require('cmp').close()
+      end
+
+      local before_line = string.sub(line, 1, cursor + 1)
+      local after_line = string.sub(line, cursor + 1, -1)
+      if not string.match(before_line, '^%s+$') then
+        if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
+          require('cmp').complete()
+        end
+      end
+    end,
+    pattern = "*"
+  })
