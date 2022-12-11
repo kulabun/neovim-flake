@@ -1,6 +1,5 @@
 vim.opt.backspace = vim.opt.backspace + { "nostop" } -- Don't stop backspace at insert
 vim.opt.clipboard = "unnamedplus" -- Connection to the system clipboard
-vim.opt.cmdheight = 0 -- hide command line unless needed
 vim.opt.colorcolumn = { 120 } -- Highlight columns to see line length
 vim.opt.completeopt = { "menuone", "noselect" } -- Options for insert mode completion
 vim.opt.copyindent = true -- Copy the previous indentation on autoindenting

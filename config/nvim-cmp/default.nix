@@ -32,6 +32,7 @@ in
     cmp-nvim-lsp
     cmp-buffer
     cmp-path
+    cmp-nvim-lsp-signature-help
     lspkind-nvim
     luasnip
     cmp_luasnip

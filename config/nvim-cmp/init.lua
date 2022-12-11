@@ -83,7 +83,7 @@ cmp.setup({
     completeopt = "menu,menuone,noselect,noinsert",
   },
   sorting = {
-    priority_weight = 2,
+    -- priority_weight = 2,
     comparators = {
       require("copilot_cmp.comparators").prioritize,
       require("copilot_cmp.comparators").score,
@@ -133,20 +133,29 @@ cmp.setup({
       end
     end, { "i", "s" }),
     ["<S-Tab>"] = vim.schedule_wrap(function(fallback)
-      if cmp.visible() and has_words_before() then
+      if cmp.visible() then
         cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
       else
         fallback()
       end
     end, { "i", "s" }),
   },
-  sources = {
-    { name = "luasnip", priority = 40 }, -- snippets
-    { name = "path", priority = 30 }, -- path completion
-    { name = "copilot", priority = 20 }, -- snippets
-    { name = "nvim_lsp", priority = 10 }, -- lsp based completion
-    { name = "buffer", priority = 1 }, -- buffer based completion
-  },
+  -- sources are broken in groups. buffer completions will not be even shown when lsp, snippets or path compleptions exists
+  sources = cmp.config.sources(
+    {
+      { name = "copilot", priority = 25 }, -- github copilot
+      { name = "nvim_lsp_signature_help", priority = 20 },
+      { name = "nvim_lsp", priority = 20 }, -- lsp based completion
+    },
+    {
+      { name = "luasnip", priority = 15 }, -- snippets
+    },
+    {
+      { name = "path", priority = 10 }, -- path completion
+    },
+    {
+      { name = "buffer", priority = 1 }, -- buffer based completion
+    }),
   experimental = {
     ghost_text = true,
   },
@@ -154,6 +163,10 @@ cmp.setup({
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline("/", {
+  completion = {
+    autocomplete = true,
+    completeopt = "menu,menuone,noselect,noinsert",
+  },
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = "buffer" },
@@ -162,6 +175,10 @@ cmp.setup.cmdline("/", {
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(":", {
+  completion = {
+    autocomplete = true,
+    completeopt = "menu,menuone,noselect,noinsert",
+  },
   mapping = cmp.mapping.preset.cmdline(),
   sources = cmp.config.sources({
     { name = "path" },
@@ -180,12 +197,12 @@ vim.api.nvim_create_autocmd(
   { "TextChangedI", "TextChangedP" },
   {
     callback = function()
+      -- no completion in prompt
       local buftype = vim.api.nvim_buf_get_option(0, "buftype")
       if buftype == "prompt" then
         require('cmp').close()
         return
       end
-
 
       local line = vim.api.nvim_get_current_line()
       local cursor = vim.api.nvim_win_get_cursor(0)[2]
@@ -197,7 +214,9 @@ vim.api.nvim_create_autocmd(
 
       local before_line = string.sub(line, 1, cursor + 1)
       local after_line = string.sub(line, cursor + 1, -1)
+      -- skip completion popup if we are in empty line 
       if not string.match(before_line, '^%s+$') then
+        -- if the line is not empty, then show completion popup only if the cursor is in the end of line or right after space or dot
         if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
           require('cmp').complete()
         end
