@@ -160,32 +160,32 @@ cmp.setup({
     ghost_text = true,
   },
 })
-
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline("/", {
-  completion = {
-    autocomplete = true,
-    completeopt = "menu,menuone,noselect,noinsert",
-  },
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = "buffer" },
-  },
-})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(":", {
-  completion = {
-    autocomplete = true,
-    completeopt = "menu,menuone,noselect,noinsert",
-  },
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = "path" },
-  }, {
-    { name = "cmdline" },
-  }),
-})
+--
+-- -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline("/", {
+--   completion = {
+--     autocomplete = true,
+--     completeopt = "menu,menuone,noselect,noinsert",
+--   },
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = {
+--     { name = "buffer" },
+--   },
+-- })
+--
+-- -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+-- cmp.setup.cmdline(":", {
+--   completion = {
+--     autocomplete = true,
+--     completeopt = "menu,menuone,noselect,noinsert",
+--   },
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = cmp.config.sources({
+--     { name = "path" },
+--   }, {
+--     { name = "cmdline" },
+--   }),
+-- })
 
 vim.api.nvim_set_keymap("i", "<C-n>", "<Plug>luasnip-next-choice", {})
 vim.api.nvim_set_keymap("s", "<C-n>", "<Plug>luasnip-next-choice", {})
@@ -207,20 +207,35 @@ vim.api.nvim_create_autocmd(
       local line = vim.api.nvim_get_current_line()
       local cursor = vim.api.nvim_win_get_cursor(0)[2]
 
-      local current = string.sub(line, cursor, cursor + 1)
-      if current == "." or current == "," or current == " " then
+      local prev_symbol = string.sub(line, cursor, cursor)
+      vim.notify("prev_symbol: '" .. prev_symbol .. "'")
+      if cursor ~= 0 and (string.match(prev_symbol, '^[a-zA-Z0-9:%.]$') ~= nil) then
+        vim.notify("completion triggered based of '" .. prev_symbol .. "'")
+        require('cmp').complete()
+      else
+        vim.notify("close popup")
         require('cmp').close()
       end
 
-      local before_line = string.sub(line, 1, cursor + 1)
-      local after_line = string.sub(line, cursor + 1, -1)
-      -- skip completion popup if we are in empty line 
-      if not string.match(before_line, '^%s+$') then
-        -- if the line is not empty, then show completion popup only if the cursor is in the end of line or right after space or dot
-        if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
-          require('cmp').complete()
-        end
-      end
+      -- local current = string.sub(line, cursor, cursor + 1)
+      -- if current == "." or current == "," or current == " " then
+      --   require('cmp').close()
+      -- end
+      --
+      -- if cursor == 0 then
+      --   require('cmp').close()
+      --   return
+      -- end
+      --
+      -- local before_line = string.sub(line, 1, cursor + 1)
+      -- local after_line = string.sub(line, cursor + 1, -1)
+      -- -- skip completion popup if we are in empty line
+      -- if not string.match(before_line, '^%s+$') then
+      --   -- if the line is not empty, then show completion popup only if the cursor is in the end of line or right after space or dot
+      --   if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
+      --     require('cmp').complete()
+      --   end
+      -- end
     end,
     pattern = "*"
   })

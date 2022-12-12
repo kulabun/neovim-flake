@@ -51,7 +51,7 @@ require("lspconfig")["pyright"].setup({
 })
 
 -- Nix
-require("lspconfig")["rnix"].setup({
+require("lspconfig")["nil_ls"].setup({
   on_attach = on_attach,
   filetypes = { "nix" },
   capabilities = capabilities,

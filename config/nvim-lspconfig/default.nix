@@ -30,7 +30,8 @@ in
     my-rust
     my-rust-analyzer
     # nix
-    pkgs.rnix-lsp
+    # pkgs.rnix-lsp
+    pkgs.nil
     # typscript, javascript
     pkgs.nodePackages.typescript-language-server
     pkgs.nodePackages.typescript
