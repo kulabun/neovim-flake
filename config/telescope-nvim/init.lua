@@ -54,6 +54,7 @@ telescope.setup({
       previewer = false;
     }),
     file_browser = themes.get_dropdown({ }),
+    lsp_document_symbols = themes.get_dropdown({ }),
   },
   extensions = {
     fzf = {

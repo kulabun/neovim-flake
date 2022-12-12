@@ -48,6 +48,7 @@
           nvim-scrollbar
           nvim-cmp
           which-key-nvim
+          trouble-nvim
         ];
     in
     {

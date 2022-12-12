@@ -21,5 +21,6 @@
     bufferline-nvim = import ./bufferline-nvim {inherit pkgs lib;};
     nvim-scrollbar = import ./nvim-scrollbar {inherit pkgs lib;};
     project-nvim = import ./project-nvim {inherit pkgs lib;};
+    trouble-nvim = import ./trouble-nvim {inherit pkgs lib;};
   };
 }
