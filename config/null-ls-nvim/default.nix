@@ -6,10 +6,7 @@
   inherit (lib) readFile;
 in {
   packages = with pkgs.vimPlugins; [
-    neo-tree-nvim
-    plenary-nvim
-    nui-nvim
-    # nvim-web-devicons
+    null-ls-nvim
   ];
   config = readFile ./init.lua;
 }

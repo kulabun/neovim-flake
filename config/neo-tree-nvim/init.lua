@@ -9,9 +9,9 @@ require("neo-tree").setup({
     follow_current_file = true,
   },
   filesystem = {
-    visible = true;
+    visible = true,
     follow_current_file = true,
-    find_by_full_path_words = true,  
+    find_by_full_path_words = true,
     filtered_items = {
       hide_dotfiles = true,
       hide_gitignored = true,
@@ -20,7 +20,7 @@ require("neo-tree").setup({
       always_show = {
         ".envrc",
         ".gitignore",
-      };
+      },
       never_show = {
         "node_modules",
         ".git",

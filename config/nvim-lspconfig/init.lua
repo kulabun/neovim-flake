@@ -43,7 +43,7 @@ require("lspconfig")["hls"].setup({
   capabilities = capabilities,
 })
 
--- Python 
+-- Python
 require("lspconfig")["pyright"].setup({
   on_attach = on_attach,
   filetypes = { "python" },
@@ -103,7 +103,6 @@ require("lspconfig")["bashls"].setup({
   filetypes = { "bash", "sh", "zsh" },
   capabilities = capabilities,
 })
-
 
 -- Go
 require("lspconfig")["gopls"].setup({

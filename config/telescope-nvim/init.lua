@@ -6,8 +6,8 @@ telescope.setup({
   defaults = {
     color_devicons = true,
     file_ignore_patterns = {
-      'node_modules/.*',
-      '.git/.*'
+      "node_modules/.*",
+      ".git/.*",
     },
     -- Default configuration for telescope goes here:
     -- config_key = value,
@@ -44,17 +44,17 @@ telescope.setup({
   pickers = {
     oldfiles = themes.get_dropdown({
       cwd_only = true,
-      previewer = false;
+      previewer = false,
     }),
-    buffers = themes.get_dropdown({ 
-      previewer = false; 
+    buffers = themes.get_dropdown({
+      previewer = false,
     }),
     find_files = themes.get_dropdown({
       cwd_only = true,
-      previewer = false;
+      previewer = false,
     }),
-    file_browser = themes.get_dropdown({ }),
-    lsp_document_symbols = themes.get_dropdown({ }),
+    file_browser = themes.get_dropdown({}),
+    lsp_document_symbols = themes.get_dropdown({}),
   },
   extensions = {
     fzf = {

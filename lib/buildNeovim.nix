@@ -1,12 +1,12 @@
-{ pkgs
-, neovimPackage
-, neovimConfig
-, extraPackages ? [ ]
-, environment ? { }
-, runBefore ? []
-, ...
-}:
-let
+{
+  pkgs,
+  neovimPackage,
+  neovimConfig,
+  extraPackages ? [],
+  environment ? {},
+  runBefore ? [],
+  ...
+}: let
   inherit (pkgs) wrapNeovimUnstable;
   inherit (pkgs.lib) concatStringsSep;
 
@@ -30,20 +30,20 @@ let
 
   neovim =
     pkgs.symlinkJoin
-      rec {
-        name = "nvim";
-        buildInputs = [ pkgs.makeWrapper ];
-        paths = [ neovimPackage ] ++ dependencies ++ extraPackages;
-        postBuild = ''
-          for f in $out/lib/node_modules/.bin/*; do
-           path="$(readlink --canonicalize-missing "$f")"
-           ln -s "$path" "$out/bin/$(basename $f)"
-          done
-          wrapProgram $out/bin/${name} \
-            --prefix PATH ":" $out/bin \
-            ${concatStringsSep " " (map (x: "--set ${x.name} ${x.value}") environment)} \
-            ${concatStringsSep " " (map (x: "--run ${x}") runBefore)}
-        '';
-      };
+    rec {
+      name = "nvim";
+      buildInputs = [pkgs.makeWrapper];
+      paths = [neovimPackage] ++ dependencies ++ extraPackages;
+      postBuild = ''
+        for f in $out/lib/node_modules/.bin/*; do
+         path="$(readlink --canonicalize-missing "$f")"
+         ln -s "$path" "$out/bin/$(basename $f)"
+        done
+        wrapProgram $out/bin/${name} \
+          --prefix PATH ":" $out/bin \
+          ${concatStringsSep " " (map (x: "--set ${x.name} ${x.value}") environment)} \
+          ${concatStringsSep " " (map (x: "--run ${x}") runBefore)}
+      '';
+    };
 in
-wrapNeovimUnstable neovim (neovimConfig // { wrapRc = true; })
+  wrapNeovimUnstable neovim (neovimConfig // {wrapRc = true;})

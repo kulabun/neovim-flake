@@ -22,5 +22,7 @@
     nvim-scrollbar = import ./nvim-scrollbar {inherit pkgs lib;};
     project-nvim = import ./project-nvim {inherit pkgs lib;};
     trouble-nvim = import ./trouble-nvim {inherit pkgs lib;};
+    null-ls-nvim = import ./null-ls-nvim {inherit pkgs lib;};
+    fidget-nvim = import ./fidget-nvim {inherit pkgs lib;};
   };
 }

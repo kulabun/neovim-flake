@@ -1,11 +1,10 @@
-{ pkgs
-, lib
-, ...
-}:
-let
-  inherit (lib) readFile;
-in
 {
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit (lib) readFile;
+in {
   packages = with pkgs.vimPlugins; [
     nvim-treesitter-textobjects
     nvim-treesitter-refactor

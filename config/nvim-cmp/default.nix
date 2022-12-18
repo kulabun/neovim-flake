@@ -1,9 +1,9 @@
-{ pkgs
-, lib
-, inputs
-, ...
-}:
-let
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: let
   inherit (lib) readFile;
   inherit (pkgs.vimUtils) buildVimPluginFrom2Nix;
   copilot-lua = buildVimPluginFrom2Nix {
@@ -24,8 +24,7 @@ let
       license = lib.licenses.mit;
     };
   };
-in
-{
+in {
   packages = with pkgs.vimPlugins; [
     nvim-cmp
 
@@ -37,7 +36,7 @@ in
     luasnip
     cmp_luasnip
     friendly-snippets
-      
+
     copilot-lua
     copilot-cmp
 

@@ -20,108 +20,108 @@
     manix.url = "github:kulabun/manix";
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , flake-utils
-    , ...
-    } @ inputs:
-    let
-      buildNeovim = pkgs: (import ./lib { inherit inputs pkgs; }).buildNeovim;
-      config = pkgs: (import ./config { inherit inputs pkgs; lib = pkgs.lib; });
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    ...
+  } @ inputs: let
+    buildNeovim = pkgs: (import ./lib {inherit inputs pkgs;}).buildNeovim;
+    config = pkgs: (import ./config {
+      inherit inputs pkgs;
+      lib = pkgs.lib;
+    });
 
-      plugins = pkgs:
-        with (config pkgs).plugins; [
-          settings
-          sonokai
-          nvim-web-devicons
-          todo-comments-nvim
-          neo-tree-nvim
-          lualine-nvim
-          indent-blankline-nvim
-          bufferline-nvim
-          project-nvim
-          telescope-nvim
-          nvim-treesitter
-          nvim-lspconfig
-          comment-nvim
-          nvim-scrollbar
-          nvim-cmp
-          which-key-nvim
-          trouble-nvim
-        ];
-    in
+    plugins = pkgs:
+      with (config pkgs).plugins; [
+        bufferline-nvim
+        comment-nvim
+        fidget-nvim
+        indent-blankline-nvim
+        lualine-nvim
+        neo-tree-nvim
+        null-ls-nvim
+        nvim-cmp
+        nvim-lspconfig
+        nvim-scrollbar
+        nvim-treesitter
+        nvim-web-devicons
+        project-nvim
+        settings
+        sonokai
+        telescope-nvim
+        todo-comments-nvim
+        trouble-nvim
+        which-key-nvim
+      ];
+  in
     {
-      overlays.default = final: prev:
-        rec {
-          neovim-kl = buildNeovim prev {
-            neovimPackage = inputs.neovim-flake.packages.${prev.system}.neovim;
-            extraPackages = [ prev.wl-clipboard ];
-            neovimPlugins = plugins prev;
-          };
+      overlays.default = final: prev: rec {
+        neovim-kl = buildNeovim prev {
+          neovimPackage = inputs.neovim-flake.packages.${prev.system}.neovim;
+          extraPackages = [prev.wl-clipboard];
+          neovimPlugins = plugins prev;
         };
+      };
     }
     // flake-utils.lib.eachSystem
-      [
-        "x86_64-linux"
-        "aarch64-linux"
-      ]
-      (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            (import inputs.rust-overlay)
-            (final: prev: { inherit (inputs.manix.packages.${system}) manix; })
-            self.overlays.default
-          ];
-          # config = {allowUnfree = true;};
+    [
+      "x86_64-linux"
+      "aarch64-linux"
+      "aarch64-darwin" 
+    ]
+    (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [
+          (import inputs.rust-overlay)
+          (final: prev: {inherit (inputs.manix.packages.${system}) manix;})
+          self.overlays.default
+        ];
+        # config = {allowUnfree = true;};
+      };
+      inherit (pkgs.neovimUtils) makeNeovimConfig;
+    in rec {
+      apps = rec {
+        neovim = {
+          type = "app";
+          program = "${pkgs.neovim-kl}/bin/nvim";
         };
-        inherit (pkgs.neovimUtils) makeNeovimConfig;
-      in
-      rec {
-        apps = rec {
-          neovim = {
-            type = "app";
-            program = "${pkgs.neovim-kl}/bin/nvim";
-          };
-          default = neovim;
-        };
+        default = neovim;
+      };
 
-        packages = rec {
-          inherit (pkgs) neovim-kl;
-          default = neovim-kl;
-        };
+      packages = rec {
+        inherit (pkgs) neovim-kl;
+        default = neovim-kl;
+      };
 
-        checks =
-          let
-            checkNoErrors = checkName: cmd:
-              pkgs.runCommand checkName
-                { buildInputs = [ pkgs.git ]; }
-                ''
-                  mkdir -p "$out"
-                  export HOME=$TMPDIR
-                  # should we set XDG_* vars here?
+      checks = let
+        checkNoErrors = checkName: cmd:
+          pkgs.runCommand checkName
+          {buildInputs = [pkgs.git];}
+          ''
+            mkdir -p "$out"
+            export HOME=$TMPDIR
+            # should we set XDG_* vars here?
 
-                  ${cmd} 2> "$out/${checkName}.log"
+            ${cmd} 2> "$out/${checkName}.log"
 
-                  cat "$out/${checkName}.log"
+            cat "$out/${checkName}.log"
 
-                  if [ -n "$(cat "$out/${checkName}.log")" ]; then
-                      while IFS= read -r line; do
-                          echo "$line"
-                      done < "$out/${checkName}.log"
-                      exit 1
-                  fi
-                '';
-          in
-          {
-            neovim-check-config = checkNoErrors "neovim-check-config" ''${pkgs.neovim-kl}/bin/nvim --headless -c "q"'';
-            # TODO: checkhealth?
-          };
+            if [ -n "$(cat "$out/${checkName}.log")" ]; then
+                while IFS= read -r line; do
+                    echo "$line"
+                done < "$out/${checkName}.log"
+                exit 1
+            fi
+          '';
+      in {
+        neovim-check-config = checkNoErrors "neovim-check-config" ''${pkgs.neovim-kl}/bin/nvim --headless -c "q"'';
+        # TODO: checkhealth?
+      };
 
-        devShells.default = pkgs.mkShell {
-          buildInputs = [ ];
-        };
-      });
+      devShells.default = pkgs.mkShell {
+        buildInputs = [];
+      };
+    });
 }

@@ -25,7 +25,12 @@ wk.register({
   ["<C-.>"] = { vim.lsp.buf.code_action, "Show code actions" },
   ["<F2>"] = { vim.lsp.buf.rename, "Rename symbol" },
   ["<F12>"] = { vim.lsp.buf.definition, "Go to definition" },
-  ["<C-S-i>"] = { function() vim.lsp.buf.format { async = true } end, "Format document" },
+  ["<C-S-i>"] = {
+    function()
+      vim.lsp.buf.format({ async = true })
+    end,
+    "Format document",
+  },
 })
 
 local has_trouble, trouble = pcall(require, "trouble")
@@ -41,9 +46,9 @@ end
 
 local has_telescope, telescope = pcall(require, "telescope")
 if has_telescope then
-  local dropdown = require('telescope.themes').get_dropdown
-  local ivy = require('telescope.themes').get_ivy
-  local builtin = require('telescope.builtin');
+  local dropdown = require("telescope.themes").get_dropdown
+  local ivy = require("telescope.themes").get_ivy
+  local builtin = require("telescope.builtin")
 
   local function telescope_help()
     local help_map = {
@@ -83,18 +88,18 @@ if has_telescope then
   local function telescope_document_symbols()
     builtin.lsp_document_symbols({
       symbols = {
-        'Class',
-        'Constant',
-        'Constructor',
-        'Enum',
-        'Field',
-        'Function',
-        'Interface',
-        'Method',
-        'Module',
-        'Property',
-        'Struct',
-        'Variable',
+        "Class",
+        "Constant",
+        "Constructor",
+        "Enum",
+        "Field",
+        "Function",
+        "Interface",
+        "Method",
+        "Module",
+        "Property",
+        "Struct",
+        "Variable",
       },
     })
   end
@@ -134,7 +139,7 @@ if has_telescope then
       -- ["<F2>"] = { "<cmd>ToggleTerm<cr>", "Terminal toggle" },
       -- ["<F3>"] = { "<cmd>Telescope keymaps<cr>", "Telescope" },
       -- ["<F4>"] = { "<cmd>Telescope<cr>", "Telescope" },
-    }
+    },
   }, { mode = "n" })
 end
 

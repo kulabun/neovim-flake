@@ -141,21 +141,17 @@ cmp.setup({
     end, { "i", "s" }),
   },
   -- sources are broken in groups. buffer completions will not be even shown when lsp, snippets or path compleptions exists
-  sources = cmp.config.sources(
-    {
-      { name = "copilot", priority = 25 }, -- github copilot
-      { name = "nvim_lsp_signature_help", priority = 20 },
-      { name = "nvim_lsp", priority = 20 }, -- lsp based completion
-    },
-    {
-      { name = "luasnip", priority = 15 }, -- snippets
-    },
-    {
-      { name = "path", priority = 10 }, -- path completion
-    },
-    {
-      { name = "buffer", priority = 1 }, -- buffer based completion
-    }),
+  sources = cmp.config.sources({
+    { name = "copilot", priority = 25 }, -- github copilot
+    { name = "nvim_lsp_signature_help", priority = 20 },
+    { name = "nvim_lsp", priority = 20 }, -- lsp based completion
+  }, {
+    { name = "luasnip", priority = 15 }, -- snippets
+  }, {
+    { name = "path", priority = 10 }, -- path completion
+  }, {
+    { name = "buffer", priority = 1 }, -- buffer based completion
+  }),
   experimental = {
     ghost_text = true,
   },
@@ -193,49 +189,47 @@ vim.api.nvim_set_keymap("i", "<C-p>", "<Plug>luasnip-prev-choice", {})
 vim.api.nvim_set_keymap("s", "<C-p>", "<Plug>luasnip-prev-choice", {})
 
 -- Taken from https://github.com/hrsh7th/nvim-cmp/issues/519
-vim.api.nvim_create_autocmd(
-  { "TextChangedI", "TextChangedP" },
-  {
-    callback = function()
-      -- no completion in prompt
-      local buftype = vim.api.nvim_buf_get_option(0, "buftype")
-      if buftype == "prompt" then
-        require('cmp').close()
-        return
-      end
+vim.api.nvim_create_autocmd({ "TextChangedI", "TextChangedP" }, {
+  callback = function()
+    -- no completion in prompt
+    local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+    if buftype == "prompt" then
+      require("cmp").close()
+      return
+    end
 
-      local line = vim.api.nvim_get_current_line()
-      local cursor = vim.api.nvim_win_get_cursor(0)[2]
+    local line = vim.api.nvim_get_current_line()
+    local cursor = vim.api.nvim_win_get_cursor(0)[2]
 
-      local prev_symbol = string.sub(line, cursor, cursor)
-      vim.notify("prev_symbol: '" .. prev_symbol .. "'")
-      if cursor ~= 0 and (string.match(prev_symbol, '^[a-zA-Z0-9:%.]$') ~= nil) then
-        vim.notify("completion triggered based of '" .. prev_symbol .. "'")
-        require('cmp').complete()
-      else
-        vim.notify("close popup")
-        require('cmp').close()
-      end
+    local prev_symbol = string.sub(line, cursor, cursor)
+    vim.notify("prev_symbol: '" .. prev_symbol .. "'")
+    if cursor ~= 0 and (string.match(prev_symbol, "^[a-zA-Z0-9:%.]$") ~= nil) then
+      vim.notify("completion triggered based of '" .. prev_symbol .. "'")
+      require("cmp").complete()
+    else
+      vim.notify("close popup")
+      require("cmp").close()
+    end
 
-      -- local current = string.sub(line, cursor, cursor + 1)
-      -- if current == "." or current == "," or current == " " then
-      --   require('cmp').close()
-      -- end
-      --
-      -- if cursor == 0 then
-      --   require('cmp').close()
-      --   return
-      -- end
-      --
-      -- local before_line = string.sub(line, 1, cursor + 1)
-      -- local after_line = string.sub(line, cursor + 1, -1)
-      -- -- skip completion popup if we are in empty line
-      -- if not string.match(before_line, '^%s+$') then
-      --   -- if the line is not empty, then show completion popup only if the cursor is in the end of line or right after space or dot
-      --   if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
-      --     require('cmp').complete()
-      --   end
-      -- end
-    end,
-    pattern = "*"
-  })
+    -- local current = string.sub(line, cursor, cursor + 1)
+    -- if current == "." or current == "," or current == " " then
+    --   require('cmp').close()
+    -- end
+    --
+    -- if cursor == 0 then
+    --   require('cmp').close()
+    --   return
+    -- end
+    --
+    -- local before_line = string.sub(line, 1, cursor + 1)
+    -- local after_line = string.sub(line, cursor + 1, -1)
+    -- -- skip completion popup if we are in empty line
+    -- if not string.match(before_line, '^%s+$') then
+    --   -- if the line is not empty, then show completion popup only if the cursor is in the end of line or right after space or dot
+    --   if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
+    --     require('cmp').complete()
+    --   end
+    -- end
+  end,
+  pattern = "*",
+})

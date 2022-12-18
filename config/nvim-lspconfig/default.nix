@@ -1,24 +1,23 @@
-{ pkgs
-, lib
-, ...
-}:
-let
+{
+  pkgs,
+  lib,
+  ...
+}: let
   inherit (lib) readFile;
   my-rust = pkgs.rust-bin.stable.latest.default.override {
-    extensions = [ "rust-src" ];
-    targets = [ "x86_64-unknown-linux-gnu" ];
+    extensions = ["rust-src"];
+    targets = ["x86_64-unknown-linux-gnu"];
   };
   my-rust-analyzer = pkgs.symlinkJoin {
     name = "rust-analyzer";
-    paths = [ pkgs.rust-analyzer ];
-    buildInputs = [ pkgs.makeWrapper ];
+    paths = [pkgs.rust-analyzer];
+    buildInputs = [pkgs.makeWrapper];
     postBuild = ''
       wrapProgram $out/bin/rust-analyzer \
         --set-default "RUST_SRC_PATH" "${my-rust}"
     '';
   };
-in
-{
+in {
   packages = with pkgs.vimPlugins; [
     nvim-lspconfig
 
