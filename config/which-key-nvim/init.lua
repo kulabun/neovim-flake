@@ -22,7 +22,8 @@ wk.register({
 
 -- In terminal it may be not simble to get Function keys work with modifiers
 wk.register({
-  ["<C-.>"] = { vim.lsp.buf.code_action, "Show code actions" },
+  ["<leader>."] = { vim.lsp.buf.code_action, "Show code actions" },
+  ["<F1>"] = { "<cmd>bn help<cr>", "Show help" },
   ["<F2>"] = { vim.lsp.buf.rename, "Rename symbol" },
   ["<F12>"] = { vim.lsp.buf.definition, "Go to definition" },
   ["<C-S-i>"] = {

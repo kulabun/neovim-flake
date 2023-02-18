@@ -20,6 +20,7 @@
 in {
   packages = with pkgs.vimPlugins; [
     nvim-lspconfig
+    lsp_signature-nvim
 
     # python
     pkgs.nodePackages.pyright
