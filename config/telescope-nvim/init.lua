@@ -1,10 +1,13 @@
 local telescope = require("telescope")
 local themes = require("telescope.themes")
 local actions = require("telescope.actions")
+local previewers = require("telescope.previewers")
+
 
 telescope.setup({
   defaults = {
     color_devicons = true,
+    prompt_prefix="❯ ",
     file_ignore_patterns = {
       "node_modules/.*",
       ".git/.*",
@@ -43,18 +46,62 @@ telescope.setup({
   },
   pickers = {
     oldfiles = themes.get_dropdown({
+      theme = "dropdown",
       cwd_only = true,
       previewer = false,
     }),
-    buffers = themes.get_dropdown({
+    buffers = {
+      theme = "dropdown",
       previewer = false,
-    }),
-    find_files = themes.get_dropdown({
+    },
+    find_files = {
+      theme = "dropdown",
       cwd_only = true,
       previewer = false,
+    },
+    live_grep = {
+      cwd_only = true,
+    },
+    file_browser = {},
+    git_commits = {
+      previewer = previewers.new_termopen_previewer({
+        get_command = function(entry)
+            return { "git", "-c", "core.pager=delta", "-c", "delta.side-by-side=false", "diff", entry.value }
+        end,
+      })
+    },
+    lsp_document_symbols = themes.get_dropdown({
+      symbols = {
+        "Class",
+        "Constant",
+        "Constructor",
+        "Enum",
+        "Field",
+        "Function",
+        "Interface",
+        "Method",
+        "Module",
+        "Property",
+        "Struct",
+        "Variable",
+      },
     }),
-    file_browser = themes.get_dropdown({}),
-    lsp_document_symbols = themes.get_dropdown({}),
+    lsp_workspace_symbols = themes.get_dropdown({
+      symbols = {
+        "Class",
+        "Constant",
+        "Constructor",
+        "Enum",
+        "Field",
+        "Function",
+        "Interface",
+        "Method",
+        "Module",
+        "Property",
+        "Struct",
+        "Variable",
+      },
+    }),
   },
   extensions = {
     fzf = {

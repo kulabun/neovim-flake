@@ -20,6 +20,7 @@
     gawk
     git
 
+    nix-ld
     gcc
     gnumake
     pkg-config

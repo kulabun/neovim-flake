@@ -1,12 +1,15 @@
 {
   "nodes": {
     "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
       "locked": {
-        "lastModified": 1676283394,
-        "narHash": "sha256-XX2f9c3iySLCw54rJ/CZs+ZK6IQy7GXNY4nSOyu2QG4=",
+        "lastModified": 1681202837,
+        "narHash": "sha256-H+Rh19JDwRtpVPAWp64F+rlEtxUWBAQW28eAi3SRSzg=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "3db36a8b464d0c4532ba1c7dda728f4576d6d073",
+        "rev": "cfacdce06f30d2b68473a46042957675eebb3401",
         "type": "github"
       },
       "original": {
@@ -132,16 +135,17 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1676743598,
-        "narHash": "sha256-Dur62nGsts2x5PfO1NaiqWsc7HWYefrnxIh2u62bJJo=",
+        "lastModified": 1675759034,
+        "narHash": "sha256-vnyHIanZrm9rlvl2tBXxWLsZiwUx9N4dkJ7ohXcinYg=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "db849517c613733fb2959d43e6d10d5d98d5033d",
+        "rev": "b1ae775de618e3e87954a88d533ec17bbef41cdf",
         "type": "github"
       },
       "original": {
         "dir": "contrib",
         "owner": "neovim",
+        "ref": "release-0.8",
         "repo": "neovim",
         "type": "github"
       }
@@ -196,11 +200,11 @@
     "plugin-copilot-cmp": {
       "flake": false,
       "locked": {
-        "lastModified": 1673124247,
-        "narHash": "sha256-41dHpSJhapXd5p74T9E1e8Vy0dKYfmVztQTswmauBVA=",
+        "lastModified": 1680774899,
+        "narHash": "sha256-5tKT2F+E7/keYr7HwNDFtEvw3IW47AyXu5ePwk4u4mM=",
         "owner": "zbirenbaum",
         "repo": "copilot-cmp",
-        "rev": "b732a58ac8b7287b981cd9f0d9c0f61e5e9d5760",
+        "rev": "99467081478aabe4f1183a19a8ba585e511adc20",
         "type": "github"
       },
       "original": {
@@ -212,11 +216,11 @@
     "plugin-copilot-lua": {
       "flake": false,
       "locked": {
-        "lastModified": 1676663591,
-        "narHash": "sha256-RO93/7L/vR1EHjeEv0o6mpnDD6aCsu5CX6CRYdDf9ok=",
+        "lastModified": 1681223911,
+        "narHash": "sha256-ttF9LW6PNKk/BBWET2BUqtq5f7OIZ7ohtQevAaP8srg=",
         "owner": "zbirenbaum",
         "repo": "copilot.lua",
-        "rev": "5304ea7079f38df200f4357401f1510fd00560a8",
+        "rev": "a4a37dda9e48986e5d2a90d6a3cbc88fca241dbb",
         "type": "github"
       },
       "original": {
@@ -242,16 +246,31 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1676687290,
-        "narHash": "sha256-DP0CJ7qtUXf+mmMglJL1yANizzV1O4UfQ9NrKgy7O04=",
+        "lastModified": 1681265948,
+        "narHash": "sha256-wYS5dR1fRoU6VtoKScz1OUS/dmart7hfI0G71qkJcwc=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "bdccd5e973d45159f7d13f7c65a4271dc02cf6d4",
+        "rev": "b10a42fe6bb0b6d1b335c1f137419ebf754b2b59",
         "type": "github"
       },
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
         "type": "github"
       }
     },

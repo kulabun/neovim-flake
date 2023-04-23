@@ -124,7 +124,13 @@ cmp.setup({
   },
   mapping = {
     ["<C-Space>"] = cmp.mapping.complete(),
-    ["<C-e>"] = cmp.mapping.close(),
+    -- ["<Esc>"] = vim.schedule_wrap(function(fallback)
+    --   if cmp.visible() then
+    --     cmp.close()
+    --   else
+    --     fallback()
+    --   end
+    -- end, { "i", "s" }),
     ["<CR>"] = vim.schedule_wrap(function(fallback)
       if cmp.visible() and cmp.get_selected_entry() then
         cmp.confirm({
@@ -147,7 +153,7 @@ cmp.setup({
     ["<Tab>"] = vim.schedule_wrap(function(fallback)
       if cmp.visible() then
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
-      elseif has_words_before and copilot.is_visible() then
+      elseif has_words_before() and copilot.is_visible() then
         copilot.accept()
       elseif has_words_before() then
         cmp.complete()

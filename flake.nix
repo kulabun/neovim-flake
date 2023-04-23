@@ -3,22 +3,12 @@
   inputs = {
     # nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs.url = "nixpkgs/22.11";
-    neovim-flake = {
-      url = "github:neovim/neovim?dir=contrib";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    rust-overlay.url = "github:oxalica/rust-overlay";
+    neovim-flake = { url = "github:neovim/neovim/release-0.8?dir=contrib"; inputs.nixpkgs.follows = "nixpkgs"; };
 
     # Vim plugins
-    plugin-copilot-lua = {
-      url = "github:zbirenbaum/copilot.lua";
-      flake = false;
-    };
-    plugin-copilot-cmp = {
-      url = "github:zbirenbaum/copilot-cmp";
-      flake = false;
-    };
-    manix.url = "github:kulabun/manix";
+    plugin-copilot-lua = { url = "github:zbirenbaum/copilot.lua"; flake = false; };
+    plugin-copilot-cmp = { url = "github:zbirenbaum/copilot-cmp"; flake = false; };
+   # nvchad = { url = "github:NvChad/NvChad"; flake = false; };
   };
 
   outputs = {
@@ -68,8 +58,8 @@
     // flake-utils.lib.eachSystem
     [
       "x86_64-linux"
-      "aarch64-linux"
-      "aarch64-darwin" 
+     # "aarch64-linux"
+     # "aarch64-darwin" 
     ]
     (system: let
       pkgs = import nixpkgs {

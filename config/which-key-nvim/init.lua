@@ -62,14 +62,6 @@ if has_telescope then
     end
   end
 
-  local function telescope_buffers()
-    builtin.buffers()
-  end
-
-  local function telescope_project_files()
-    builtin.find_files()
-  end
-
   local function telescope_project_grep()
     builtin.live_grep()
   end
@@ -86,28 +78,55 @@ if has_telescope then
     builtin.git_branches()
   end
 
-  local function telescope_document_symbols()
-    builtin.lsp_document_symbols({
-      symbols = {
-        "Class",
-        "Constant",
-        "Constructor",
-        "Enum",
-        "Field",
-        "Function",
-        "Interface",
-        "Method",
-        "Module",
-        "Property",
-        "Struct",
-        "Variable",
-      },
-    })
-  end
-
   wk.register({
-    ["<C-p>"] = { builtin.find_files, "Quick Open, Go to file.." },
-    ["<C-S-o>"] = { telescope_document_symbols, "Quick Open, Go to file.." },
+    ["<C-o>"] = { builtin.find_files, "Go to file.." },
+    ["<C-e>"] = { builtin.buffers, "Go to buffer.." },
+    ["<C-S-c>"] = { builtin.git_commits, "Git commits.." },
+    ["<C-f>"] = { builtin.live_grep, "Search in project.." },
+
+    ["<leader>o"] = { builtin.find_files, "Go to file.." },
+    ["<leader>e"] = { builtin.buffers, "Go to buffer.." },
+    ["<leader>c"] = { builtin.git_commits, "Git commits.." },
+    -- Shift - project scope. remap C-f and C-r ?
+    -- ["<C-c>"] = { builtin.git_status, "Git status.." },
+    -- C-c search for class in classpath
+    -- C-g Git..
+    -- C-o open folder..
+    -- C-a actions.. # generate is submenu
+    -- C-n generate..
+    -- C-S-n new.. # file / scratch / folder
+    -- C-s save
+    -- C-S-s save all
+    -- C-q quit
+    -- C-j go back
+    -- C-k go forward
+    -- C-p chatgpt prompt
+    -- C-, previous quick fix
+    -- C-. next quick fix
+    -- C-u quickfix menu...
+    -- C-t copilot accept
+    -- C-d go to symbol in document
+    -- C-S-d go to symbol in project
+    -- C-i information(help)
+    -- C-y
+    -- C-m terminal
+    -- C-r replace in directory..
+    -- C-h / C-l - left/right buffer
+    -- C-z - undo
+    -- C-S-z - redo
+    -- C-1
+    -- C-2
+    -- C-3
+    -- C-4
+    -- C-5
+    -- C-6
+    -- C-7
+    -- C-8
+    -- C-9
+    -- C-0
+
+    ["<C-s>"] = { builtin.lsp_document_symbols, "Go to symbol in File.." },
+    ["<C-S-s>"] = { builtin.lsp_workspace_symbols, "Go to symbol in Workspace.." },
   }, { mode = "n" })
 
   wk.register({
