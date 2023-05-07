@@ -1,14 +1,7 @@
 {
   description = "My Neovim configuration";
   inputs = {
-    # nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs.url = "nixpkgs/22.11";
-    neovim-flake = { url = "github:neovim/neovim/release-0.8?dir=contrib"; inputs.nixpkgs.follows = "nixpkgs"; };
-
-    # Vim plugins
-    plugin-copilot-lua = { url = "github:zbirenbaum/copilot.lua"; flake = false; };
-    plugin-copilot-cmp = { url = "github:zbirenbaum/copilot-cmp"; flake = false; };
-   # nvchad = { url = "github:NvChad/NvChad"; flake = false; };
+    nixpkgs.url = "nixpkgs/nixos-unstable";
   };
 
   outputs = {
@@ -17,73 +10,181 @@
     flake-utils,
     ...
   } @ inputs: let
-    buildNeovim = pkgs: (import ./lib {inherit inputs pkgs;}).buildNeovim;
-    config = pkgs: (import ./config {
-      inherit inputs pkgs;
-      lib = pkgs.lib;
-    });
+    buildNeovim = args: import ./buildNeovim.nix args;
 
-    plugins = pkgs:
-      with (config pkgs).plugins; [
-        bufferline-nvim
-        comment-nvim
-        fidget-nvim
-        indent-blankline-nvim
-        lualine-nvim
-        neo-tree-nvim
-        null-ls-nvim
-        nvim-cmp
-        nvim-lspconfig
-        nvim-scrollbar
-        nvim-treesitter
-        nvim-web-devicons
-        project-nvim
-        settings
-        sonokai
-        telescope-nvim
-        todo-comments-nvim
-        trouble-nvim
-        which-key-nvim
-      ];
+    neovim = pkgs:
+      buildNeovim {
+        inherit pkgs;
+        neovimPackage = pkgs.neovim-unwrapped;
+        neovimPlugins =
+          map (plug: (plug pkgs)) [
+          ]
+          ++ (with pkgs.vimPlugins; [
+            telescope-fzy-native-nvim
+            telescope-nvim
+
+            nvim-treesitter-textobjects
+            /*
+            nvim-treesitter.withAllGrammars
+            */
+            # comment grammar conflicts with todo-comments, plus there are too many grammars there
+            (nvim-treesitter.withPlugins (
+              plugins:
+                with plugins; [
+                  tree-sitter-bash
+                  tree-sitter-c
+                  tree-sitter-diff
+                  tree-sitter-dockerfile
+                  tree-sitter-gitattributes
+                  tree-sitter-gitcommit
+                  tree-sitter-git_config
+                  tree-sitter-gitignore
+                  tree-sitter-git_rebase
+                  tree-sitter-go
+                  tree-sitter-gomod
+                  tree-sitter-gosum
+                  tree-sitter-graphql
+                  tree-sitter-hcl # terraform
+                  tree-sitter-html
+                  tree-sitter-http
+                  tree-sitter-java
+                  tree-sitter-javascript
+                  tree-sitter-jq
+                  tree-sitter-json
+                  tree-sitter-json5
+                  tree-sitter-kdl
+                  tree-sitter-kotlin
+                  tree-sitter-lua
+                  tree-sitter-luadoc
+                  tree-sitter-luap
+                  tree-sitter-make
+                  tree-sitter-markdown
+                  tree-sitter-markdown-inline
+                  tree-sitter-nix
+                  tree-sitter-po # internationalization
+                  tree-sitter-pug
+                  tree-sitter-python
+                  tree-sitter-query # for the tree-sitter itself
+                  tree-sitter-regex
+                  tree-sitter-regex
+                  tree-sitter-rust
+                  tree-sitter-toml
+                  tree-sitter-tsx
+                  tree-sitter-typescript
+                  tree-sitter-vim
+                  tree-sitter-vimdoc
+                  tree-sitter-yaml
+                ]
+            ))
+
+            catppuccin-nvim
+
+            dressing-nvim
+            neo-tree-nvim
+            which-key-nvim
+            nvim-navic
+            nvim-web-devicons
+            indent-blankline-nvim
+            gitsigns-nvim
+            bufferline-nvim
+            lualine-nvim
+            todo-comments-nvim
+
+            mini-nvim
+
+            nvim-cmp
+            cmp-nvim-lsp
+            cmp_luasnip
+            cmp-path
+            cmp-nvim-lsp-signature-help
+
+            cmp-buffer
+            cmp-treesitter
+
+            luasnip
+            # friendly-snippets
+
+            copilot-lua
+
+            null-ls-nvim
+            nvim-lspconfig
+            nvim-jdtls
+
+            plenary-nvim
+          ]);
+        extraPackages = with pkgs; [
+          # Python
+          pyright # language server
+          black # formatter
+          isort # formatter
+          ruff # diagnostics
+
+          # Shell
+          nodePackages.bash-language-server # language server
+          shfmt # formatter
+          shellcheck # diagnostics
+
+          # Nix
+          nil # language server
+          alejandra # formatter
+          statix # diagnostics
+
+          # Lua
+          lua-language-server # language server
+          stylua # formatter
+          selene # diagnostics
+
+          # JSON
+          nodePackages.jsonlint
+          python3Packages.yamllint
+
+          # JavaSript
+          nodePackages.prettier
+
+          # Java
+          jdt-language-server
+
+          # nodejs # for copilot
+          fzy
+          bat
+          ripgrep
+          fd
+          git
+          # lazygit
+        ];
+        customRC = ''
+          vim.opt.rtp:prepend("${./config}")
+          vim.opt.packpath = vim.opt.rtp:get()
+          require("user")
+        '';
+      };
   in
     {
-      overlays.default = final: prev: rec {
-        neovim-kl = buildNeovim prev {
-          neovimPackage = inputs.neovim-flake.packages.${prev.system}.neovim;
-          extraPackages = [prev.wl-clipboard];
-          neovimPlugins = plugins prev;
-        };
+      overlays.default = final: prev: {
+        nvim = neovim prev;
       };
     }
     // flake-utils.lib.eachSystem
     [
       "x86_64-linux"
-     # "aarch64-linux"
-     # "aarch64-darwin" 
     ]
     (system: let
       pkgs = import nixpkgs {
         inherit system;
-        overlays = [
-          (import inputs.rust-overlay)
-          (final: prev: {inherit (inputs.manix.packages.${system}) manix;})
-          self.overlays.default
-        ];
-        # config = {allowUnfree = true;};
-      };
-      inherit (pkgs.neovimUtils) makeNeovimConfig;
-    in rec {
-      apps = rec {
-        neovim = {
-          type = "app";
-          program = "${pkgs.neovim-kl}/bin/nvim";
-        };
-        default = neovim;
+        overlays = [self.overlays.default];
       };
 
-      packages = rec {
-        inherit (pkgs) neovim-kl;
-        default = neovim-kl;
+      inherit (pkgs.neovimUtils) makeNeovimConfig;
+    in rec {
+      apps = {
+        default = {
+          type = "app";
+          program = "${pkgs.nvim}/bin/nvim";
+        };
+      };
+
+      packages = {
+        default = pkgs.nvim;
       };
 
       checks = let
@@ -107,8 +208,7 @@
             fi
           '';
       in {
-        neovim-check-config = checkNoErrors "neovim-check-config" ''${pkgs.neovim-kl}/bin/nvim --headless -c "q"'';
-        # TODO: checkhealth?
+        neovim-check-config = checkNoErrors "neovim-check-config" ''${pkgs.nvim}/bin/nvim --headless -c "q"'';
       };
 
       devShells.default = pkgs.mkShell {

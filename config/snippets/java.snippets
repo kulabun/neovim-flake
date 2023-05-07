@@ -1,0 +1,145 @@
+##
+## Access Modifiers
+snippet pt
+	protected ${0:$VISUAL}
+snippet pc
+	public ${0:$VISUAL}
+snippet pr
+	private ${0:$VISUAL}
+##
+## Classes
+snippet cl
+	class ${1:$TM_FILENAME_BASE} {
+		${VISUAL}${0}
+	}
+snippet pcl
+	public class $TM_FILENAME_BASE {
+		${0}
+	}
+snippet in
+	interface ${1:$TM_FILENAME_BASE} {
+		${0}
+	}
+##
+## Class Enhancements
+snippet ext
+	extends ${0}
+snippet imp
+	implements ${0}
+##
+## Logger Methods
+snippet debug
+	${1:LOG}.debug(${0:param});
+snippet error
+	${1:LOG}.error(${0:param});
+snippet info
+	${1:LOG}.info(${0:param});
+snippet warn
+	${1:LOG}.warn(${0:param});
+##
+## Loops
+snippet iter
+	for (${1} : ${2}) {
+		${VISUAL}${0}
+	}
+snippet fori
+	for (int ${1:i}=${2:0}; ${1} ${3:<} ${4:10}; ${1}${5:++}) {
+		${VISUAL}${0}
+	}
+snippet wh
+	while (${1:true}) {
+		${VISUAL}${0}
+	}
+##
+## Main method
+snippet psvm
+	public static void main (String[] args) {
+		${0}
+	}
+snippet main
+	public static void main (String[] args) {
+		${0}
+	}
+##
+## Print Methods
+snippet sout
+	System.out.println(${0});
+snippet serr
+	System.err.println(${0});
+##
+## Control Statements
+snippet case
+	case ${1}:
+		${0}
+snippet def
+	default:
+		${0}
+snippet el
+	else {
+		${0}
+	}
+snippet eif
+	else if (${1}) {
+		${0}
+	}
+snippet if
+	if (${1}) {
+		${VISUAL}${0}
+	}
+snippet sw
+	switch (${1}) {
+		${0}
+	}
+##
+## Create a Method
+snippet m
+	${1:void} ${2:method}(${3}) {
+		${0}
+	}
+##
+## Create a Variable
+snippet v
+	${1:String} ${2:var} = ${0:null};
+##
+## Singleton Pattern
+snippet singleton
+	private static class Holder {
+		private static final ${1:$TM_FILENAME_BASE} INSTANCE = new $1();
+	}
+
+	private $1() { }
+
+	public static $1 getInstance() {
+		return Holder.INSTANCE;
+	}
+## Try
+snippet try
+	try {
+		${VISUAL}${0}
+	} catch(${1:Exception} ${2:e}) {
+	}
+snippet tryf
+	try {
+		${VISUAL}${0}
+	} catch(${1:Exception} ${2:e}) {
+	} finally {
+	}
+##
+## Terminate Methods or Loops
+snippet re
+	return ${0};
+snippet br
+	break;
+##
+## Test Methods
+snippet test
+	@Test
+	public void test${1:Name}() throws Exception {
+		${0}
+	}
+##
+## Comments
+snippet /*
+	/*
+	 * ${0}
+	 */
