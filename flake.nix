@@ -161,7 +161,7 @@
   in
     {
       overlays.default = final: prev: {
-        nvim = neovim prev;
+        kl-nvim = neovim prev;
       };
     }
     // flake-utils.lib.eachSystem
@@ -179,12 +179,12 @@
       apps = {
         default = {
           type = "app";
-          program = "${pkgs.nvim}/bin/nvim";
+          program = "${pkgs.kl-nvim}/bin/nvim";
         };
       };
 
       packages = {
-        default = pkgs.nvim;
+        default = pkgs.kl-nvim;
       };
 
       checks = let
