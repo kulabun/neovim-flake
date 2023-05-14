@@ -20,14 +20,11 @@
           map (plug: (plug pkgs)) [
           ]
           ++ (with pkgs.vimPlugins; [
-            telescope-fzy-native-nvim
+            telescope-fzf-native-nvim
             telescope-nvim
 
             nvim-treesitter-textobjects
-            /*
-            nvim-treesitter.withAllGrammars
-            */
-            # comment grammar conflicts with todo-comments, plus there are too many grammars there
+            # nvim-treesitter.withAllGrammars - comment grammar conflicts with todo-comments, plus there are too many grammars there
             (nvim-treesitter.withPlugins (
               plugins:
                 with plugins; [
@@ -122,11 +119,12 @@
           # Shell
           nodePackages.bash-language-server # language server
           shfmt # formatter
+          shellharden # formatter
           shellcheck # diagnostics
 
           # Nix
           nil # language server
-          alejandra # formatter
+          nixpkgs-fmt # formatter
           statix # diagnostics
 
           # Lua
@@ -138,14 +136,19 @@
           nodePackages.jsonlint
           python3Packages.yamllint
 
-          # JavaSript
-          nodePackages.prettier
-
           # Java
           jdt-language-server
 
+          # HTML/CSS/JS
+          nodePackages.vscode-langservers-extracted
+          nodePackages."@tailwindcss/language-server"
+          # nodePackages.typescript-language-server
+          # nodePackages.typescript
+          nodePackages.prettier
+          deno
+
           # nodejs # for copilot
-          fzy
+          fzf
           bat
           ripgrep
           fd

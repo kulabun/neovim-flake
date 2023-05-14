@@ -13,6 +13,10 @@ lspconfig.pyright.setup({ capabilities = capabilities, on_attach = on_attach })
 lspconfig.bashls.setup({ capabilities = capabilities, on_attach = on_attach })
 lspconfig.nil_ls.setup({ capabilities = capabilities, on_attach = on_attach })
 lspconfig.lua_ls.setup({ capabilities = capabilities, on_attach = on_attach })
+lspconfig.denols.setup({ capabilities = capabilities, on_attach = on_attach })
+lspconfig.html.setup({ capabilities = capabilities, on_attach = on_attach })
+lspconfig.tailwindcss.setup({ capabilities = capabilities, on_attach = on_attach })
+lspconfig.cssls.setup({ capabilities = capabilities, on_attach = on_attach })
 
 -- local servers = { "html", "cssls", "clangd", "pyright", "rust_analyzer", "jdtls", "gopls", "rnix", "bashls", "lua_ls", "denols", "jsonls" }
 

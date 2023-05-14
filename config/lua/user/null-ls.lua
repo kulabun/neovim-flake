@@ -9,6 +9,8 @@ null_ls.setup({
 
     -- Shell
     null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.formatting.shellharden,
+    null_ls.builtins.diagnostics.shellcheck,
 
     -- Python
     null_ls.builtins.formatting.black,
@@ -16,7 +18,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.ruff,
 
     -- Nix
-    null_ls.builtins.formatting.alejandra,
+    null_ls.builtins.formatting.nixpkgs_fmt,
     null_ls.builtins.diagnostics.statix,
     null_ls.builtins.code_actions.statix,
 
