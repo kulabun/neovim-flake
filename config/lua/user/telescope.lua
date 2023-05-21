@@ -4,14 +4,14 @@ telescope.setup({
   pickers = {
     buffers = {
       theme = 'dropdown',
-      previewer = false,
+      previewer = true,
     },
     live_grep = {
       cwd_only = true,
     },
     lsp_document_symbols = {
       theme = 'dropdown',
-      previewer = false,
+      previewer = true,
       symbols = {
         'Class',
         'Constant',

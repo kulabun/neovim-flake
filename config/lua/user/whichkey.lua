@@ -109,13 +109,22 @@ map('i', '<C-s>', require('copilot.suggestion').accept_line, { desc = 'Accept AI
 -- Telescope
 map('n', '<leader>f', Util.telescope('files'), { desc = 'Open find picer' })
 map('n', '<leader>F', Util.telescope('files', { cwd = false }), { desc = 'Open find picker at current working directory' })
-map('n', '<leader>,', Util.telescope('buffers'), { desc = 'Open buffer picker' })
+map('n', '<leader>,', Util.telescope('oldfiles'), { desc = 'Open recent' })
+map('n', '<leader>b', Util.telescope('buffers'), { desc = 'Open buffer picker' })
 map('n', '<leader>j', Util.telescope('jumplist'), { desc = 'Open jumplist picker' })
 map('n', '<leader>s', Util.telescope('lsp_document_symbols'), { desc = 'Open symbol picker' })
 map('n', '<leader>S', Util.telescope('lsp_workspace_symbols'), { desc = 'Open workspace symbol picker' })
 map('n', '<leader>d', '<cmd>Telescope diagnostics bufnr=0<cr>', { desc = 'Open diagnostic picker' })
 map('n', '<leader>D', '<cmd>Telescope diagnostics<cr>', { desc = 'Open workspace diagnostic picker' })
+map('n', '<leader>/', function()
+  require('telescope.builtin').grep_string({
+    search = vim.fn.input('Global Search > '),
+    only_sort_text = true,
+  })
+end, { desc = 'Grep string' })
 map('n', '<leader>a', vim.lsp.buf.code_action, { desc = 'Perform code action' })
+
+-- Window
 map('n', '<leader>ww', '<C-w>w', { desc = 'Go to next window' })
 map('n', '<leader>wl', '<C-w>l', { desc = 'Go to left window' })
 map('n', '<leader>wh', '<C-w>h', { desc = 'Go to right window' })
@@ -151,6 +160,12 @@ map('n', 'H', '<cmd>bprev<cr>', { desc = 'Prev buffer' })
 map('n', 'L', '<cmd>bnext<cr>', { desc = 'Next buffer' })
 map('n', 'gT', '<cmd>bprev<cr>', { desc = 'Prev buffer' })
 map('n', 'gt', '<cmd>bnext<cr>', { desc = 'Next buffer' })
+
+-- Togglers
+vim.api.nvim_create_user_command('ToggleAutopairs', function()
+  vim.b.minipairs_disable = not vim.b.minipairs_disable
+end, { bang = true })
+map('n', '<leader>up', '<cmd>ToggleAutopairs<cr>', { desc = 'Toggle autopairs' })
 
 -- I have " on the same key as w, but on different layer and I often type "q instead
 vim.cmd([[ cnoreabbrev <expr> "q ((getcmdtype() is# ':' && getcmdline() is# '"q')?('wq'):('"q')) ]])

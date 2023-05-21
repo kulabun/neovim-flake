@@ -1,6 +1,7 @@
-local navic = require('navic')
+local navic = require('nvim-navic')
+local icons = require('user.config').icons
 
-vim.g.navic_silence = true
+-- vim.g.navic_silence = true
 
 navic.setup({
   separator = ' ',

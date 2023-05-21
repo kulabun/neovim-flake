@@ -5,7 +5,7 @@ null_ls.setup({
   sources = {
     -- Lua
     null_ls.builtins.formatting.stylua,
-    null_ls.builtins.diagnostics.selene,
+    -- null_ls.builtins.diagnostics.selene,
 
     -- Shell
     null_ls.builtins.formatting.shfmt,
@@ -30,5 +30,8 @@ null_ls.setup({
 
     -- JavaScript, TypeScript, CSS, HTML, JSON, YAML, Markdown, graphql
     null_ls.builtins.formatting.prettier,
+
+    -- Terraform
+    null_ls.builtins.formatting.terraform_fmt,
   },
 })

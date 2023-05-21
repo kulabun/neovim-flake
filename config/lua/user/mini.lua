@@ -27,18 +27,20 @@ basics.setup({
 require('mini.basics').setup()
 require('mini.comment').setup()
 require('mini.cursorword').setup()
--- require('mini.pairs').setup()
-require('mini.indentscope').setup({
-  symbol = '│',
-  options = { try_as_border = true },
-})
 
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = { 'help', 'alpha', 'dashboard', 'neo-tree', 'Trouble' },
-  callback = function()
-    vim.b.miniindentscope_disable = true
-  end,
-})
+vim.b.minipairs_disable = false
+require('mini.pairs').setup()
+
+-- require('mini.indentscope').setup({
+--   symbol = '│',
+--   options = { try_as_border = true },
+-- })
+-- vim.api.nvim_create_autocmd('FileType', {
+--   pattern = { 'help', 'alpha', 'dashboard', 'neo-tree', 'Trouble' },
+--   callback = function()
+--     vim.b.miniindentscope_disable = true
+--   end,
+-- })
 
 -- Nix comments
 vim.api.nvim_create_autocmd({ 'FileType' }, {

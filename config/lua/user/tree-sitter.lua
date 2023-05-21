@@ -17,4 +17,4 @@ treesitter.setup({
   -- },
 })
 
-vim.treesitter.language.register("hcl", "terraform")
+vim.treesitter.language.register('hcl', 'terraform')
