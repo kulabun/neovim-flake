@@ -41,6 +41,12 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-S-s>'] = cmp.mapping(function(fallback)
+      require('copilot.suggestion').accept()
+    end),
+    ['<C-s>'] = cmp.mapping(function(fallback)
+      require('copilot.suggestion').accept_line()
+    end),
     ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ['<S-CR>'] = cmp.mapping.confirm({
       behavior = cmp.ConfirmBehavior.Replace,

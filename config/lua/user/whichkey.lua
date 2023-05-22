@@ -112,8 +112,11 @@ map('n', '<leader>F', Util.telescope('files', { cwd = false }), { desc = 'Open f
 map('n', '<leader>,', Util.telescope('oldfiles'), { desc = 'Open recent' })
 map('n', '<leader>b', Util.telescope('buffers'), { desc = 'Open buffer picker' })
 map('n', '<leader>j', Util.telescope('jumplist'), { desc = 'Open jumplist picker' })
-map('n', '<leader>s', Util.telescope('lsp_document_symbols'), { desc = 'Open symbol picker' })
-map('n', '<leader>S', Util.telescope('lsp_workspace_symbols'), { desc = 'Open workspace symbol picker' })
+
+
+map('n', '<leader>c', '<cmd>FindClass<cr>', { desc = 'Find class' })
+map('n', '<leader>s', '<cmd>FindDocumentSymbol<cr>', { desc = 'Open symbol picker' })
+map('n', '<leader>S', '<cmd>FindSymbol<cr>', { desc = 'Open workspace symbol picker' })
 map('n', '<leader>d', '<cmd>Telescope diagnostics bufnr=0<cr>', { desc = 'Open diagnostic picker' })
 map('n', '<leader>D', '<cmd>Telescope diagnostics<cr>', { desc = 'Open workspace diagnostic picker' })
 map('n', '<leader>/', function()
@@ -123,6 +126,7 @@ map('n', '<leader>/', function()
   })
 end, { desc = 'Grep string' })
 map('n', '<leader>a', vim.lsp.buf.code_action, { desc = 'Perform code action' })
+map('n', '<leader>A', Util.telescope('commands'), { desc = 'Find command' })
 
 -- Window
 map('n', '<leader>ww', '<C-w>w', { desc = 'Go to next window' })
@@ -134,7 +138,7 @@ map('n', '<leader>wL', '<C-w>l', { desc = 'Swap with left window' })
 map('n', '<leader>wH', '<C-w>h', { desc = 'Swap with right window' })
 map('n', '<leader>wJ', '<C-w>j', { desc = 'Swap with window below' })
 map('n', '<leader>wK', '<C-w>k', { desc = 'Swap with window above' })
-map('n', '<leader>wq', '<C-w>q', { desc = 'Close window' })
+map('n', '<leader>wc', '<C-w>c', { desc = 'Close window' })
 map('n', '<leader>wo', '<C-w>o', { desc = 'Close windows except current' })
 map('n', '<leader>wv', '<C-w>v', { desc = 'Split vertically' })
 map('n', '<leader>ws', '<C-w>s', { desc = 'Split horizontally' })
@@ -149,6 +153,7 @@ map('n', '<leader>Q', '<cmd>bd!<cr>', { desc = 'Close buffer (force)' })
 map('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = 'Toggle File Explorer' })
 -- map("n", "<leader>t", "<cmd>terminal<cr>", { desc = "Open terminal" })
 
+-- TODO: can I make gd smart? go to definition if possible, otherwise go to declaration
 map('n', 'gd', require('telescope.builtin').lsp_definitions, { desc = 'Go to the definition' })
 map('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to the declaration' })
 map('n', 'gI', require('telescope.builtin').lsp_implementations, { desc = 'Go to the implementation' })
@@ -162,10 +167,13 @@ map('n', 'gT', '<cmd>bprev<cr>', { desc = 'Prev buffer' })
 map('n', 'gt', '<cmd>bnext<cr>', { desc = 'Next buffer' })
 
 -- Togglers
-vim.api.nvim_create_user_command('ToggleAutopairs', function()
-  vim.b.minipairs_disable = not vim.b.minipairs_disable
-end, { bang = true })
 map('n', '<leader>up', '<cmd>ToggleAutopairs<cr>', { desc = 'Toggle autopairs' })
+
+-- System clipboard with gp/gy
+map('n', 'gp', '"+p', { desc = 'Paste from system clipboard' })
+map('n', 'gP', '"+P', { desc = 'Paste before from system clipboard' })
+map('x', 'gy', '"+y', { desc = 'Yank to system clipboard' })
+map('n', 'gY', '"+Y', { desc = 'Yank to the end of line to system clipboard' })
 
 -- I have " on the same key as w, but on different layer and I often type "q instead
 vim.cmd([[ cnoreabbrev <expr> "q ((getcmdtype() is# ':' && getcmdline() is# '"q')?('wq'):('"q')) ]])

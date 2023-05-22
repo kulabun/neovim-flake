@@ -1,6 +1,7 @@
 -- plugins
 require('user.bufferline')
 require('user.cmp')
+require('user.commands')
 require('user.copilot')
 require('user.dressing')
 require('user.gitsigns')

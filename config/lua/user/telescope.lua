@@ -9,44 +9,6 @@ telescope.setup({
     live_grep = {
       cwd_only = true,
     },
-    lsp_document_symbols = {
-      theme = 'dropdown',
-      previewer = true,
-      symbols = {
-        'Class',
-        'Constant',
-        'Constructor',
-        'Enum',
-        'Field',
-        'Function',
-        'Interface',
-        'Method',
-        'Module',
-        'Property',
-        'Struct',
-        'Trait',
-        'Variable',
-      },
-    },
-    lsp_workspace_symbols = {
-      theme = 'dropdown',
-      cwd_only = true,
-      symbols = {
-        'Class',
-        'Constant',
-        'Constructor',
-        'Enum',
-        'Field',
-        'Function',
-        'Interface',
-        'Method',
-        'Module',
-        'Property',
-        'Struct',
-        'Trait',
-        'Variable',
-      },
-    },
     git_commits = {
       previewer = require('telescope.previewers').new_termopen_previewer({
         get_command = function(entry)
