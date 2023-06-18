@@ -175,6 +175,7 @@
       pkgs = import nixpkgs {
         inherit system;
         overlays = [self.overlays.default];
+        config.allowUnfree = true;
       };
 
       inherit (pkgs.neovimUtils) makeNeovimConfig;

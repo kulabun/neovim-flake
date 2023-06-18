@@ -1,5 +1,6 @@
 local cmp = require('cmp')
 local icons = require('user.config').icons
+local copilot = require('copilot.suggestion')
 
 local prioritize_snippet_on_exact_match = function(entry1, entry2)
   return entry1.exact and entry1.source.name == 'luasnip'
@@ -41,17 +42,29 @@ cmp.setup({
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<C-S-s>'] = cmp.mapping(function(fallback)
-      require('copilot.suggestion').accept()
-    end),
     ['<C-s>'] = cmp.mapping(function(fallback)
-      require('copilot.suggestion').accept_line()
+      if cmp.visible() then
+        cmp.confirm()
+      elseif copilot.is_visible() then
+        copilot.accept_line()
+      else
+        fallback()
+      end
     end),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-    ['<S-CR>'] = cmp.mapping.confirm({
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    }),
+    ['<C-S-s>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.confirm()
+      elseif copilot.is_visible() then
+        copilot.accept()
+      else
+        fallback()
+      end
+    end),
+    -- ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    -- ['<S-CR>'] = cmp.mapping.confirm({
+    --   behavior = cmp.ConfirmBehavior.Replace,
+    --   select = true,
+    -- }),
   },
   sources = cmp.config.sources({
     { name = 'path' },
