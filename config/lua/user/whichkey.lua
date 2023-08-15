@@ -167,7 +167,7 @@ map('n', 'gT', '<cmd>bprev<cr>', { desc = 'Prev buffer' })
 map('n', 'gt', '<cmd>bnext<cr>', { desc = 'Next buffer' })
 
 -- Togglers
-map('n', '<leader>up', '<cmd>ToggleAutopairs<cr>', { desc = 'Toggle autopairs' })
+-- map('n', '<leader>up', '<cmd>ToggleAutopairs<cr>', { desc = 'Toggle autopairs' })
 
 -- System clipboard with gp/gy
 map('n', 'gp', '"+p', { desc = 'Paste from system clipboard' })

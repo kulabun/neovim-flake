@@ -28,8 +28,8 @@ require('mini.basics').setup()
 require('mini.comment').setup()
 require('mini.cursorword').setup()
 
-vim.b.minipairs_disable = true
-require('mini.pairs').setup()
+-- vim.b.minipairs_disable = true
+-- require('mini.pairs').setup()
 
 -- require('mini.indentscope').setup({
 --   symbol = '│',
