@@ -2,7 +2,7 @@
 require('user.bufferline')
 require('user.cmp')
 require('user.commands')
-require('user.copilot')
+-- require('user.copilot')
 require('user.dressing')
 require('user.gitsigns')
 require('user.indent-blankline')

@@ -1,6 +1,6 @@
 local cmp = require('cmp')
 local icons = require('user.config').icons
-local copilot = require('copilot.suggestion')
+-- local copilot = require('copilot.suggestion')
 
 local prioritize_snippet_on_exact_match = function(entry1, entry2)
   return entry1.exact and entry1.source.name == 'luasnip'
@@ -45,8 +45,8 @@ cmp.setup({
     ['<C-s>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm()
-      elseif copilot.is_visible() then
-        copilot.accept_line()
+      -- elseif copilot.is_visible() then
+      --   copilot.accept_line()
       else
         fallback()
       end
@@ -54,8 +54,8 @@ cmp.setup({
     ['<C-S-s>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.confirm()
-      elseif copilot.is_visible() then
-        copilot.accept()
+      -- elseif copilot.is_visible() then
+      --   copilot.accept()
       else
         fallback()
       end
@@ -116,10 +116,10 @@ cmp.setup({
   -- },
 })
 
-cmp.event:on('menu_opened', function()
-  vim.b.copilot_suggestion_hidden = true
-end)
-
-cmp.event:on('menu_closed', function()
-  vim.b.copilot_suggestion_hidden = false
-end)
+-- cmp.event:on('menu_opened', function()
+--   vim.b.copilot_suggestion_hidden = true
+-- end)
+--
+-- cmp.event:on('menu_closed', function()
+--   vim.b.copilot_suggestion_hidden = false
+-- end)

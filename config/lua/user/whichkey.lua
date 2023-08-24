@@ -71,20 +71,20 @@ map('x', '<', '<gv')
 map('x', '>', '>gv')
 
 -- AI complition / Snippets
-local copilot = require('copilot.suggestion')
+-- local copilot = require('copilot.suggestion')
 local luasnip = require('luasnip')
 map({ 'i', 's' }, '<C-h>', function()
   if luasnip.choice_active() then
     luasnip.change_choice(-1)
-  elseif copilot.is_visible() then
-    copilot.prev()
+  -- elseif copilot.is_visible() then
+  --   copilot.prev()
   end
 end, { desc = 'Previous suggestion / snippet' })
 map({ 'i', 's' }, '<C-l>', function()
   if luasnip.choice_active() then
     luasnip.change_choice(1)
-  elseif copilot.is_visible() then
-    copilot.next()
+  -- elseif copilot.is_visible() then
+  --   copilot.next()
   end
 end, { desc = 'Previous suggestion / snippet' })
 map({ 'i', 's' }, '<Tab>', function()
@@ -103,8 +103,8 @@ map({ 'i', 's' }, '<S-Tab>', function()
   end
 end, { desc = 'Jump to previous snippet node' })
 
-map('i', '<C-S-s>', require('copilot.suggestion').accept, { desc = 'Accept AI suggestion(full)' })
-map('i', '<C-s>', require('copilot.suggestion').accept_line, { desc = 'Accept AI suggestion(line)' })
+-- map('i', '<C-S-s>', require('copilot.suggestion').accept, { desc = 'Accept AI suggestion(full)' })
+-- map('i', '<C-s>', require('copilot.suggestion').accept_line, { desc = 'Accept AI suggestion(line)' })
 
 -- Telescope
 map('n', '<leader>f', Util.telescope('files'), { desc = 'Open find picer' })

@@ -42,27 +42,27 @@ lualine.setup({
       --   cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
       --   color = fg("Statement"),
       -- },
-      {
-        function()
-          local icon = icons.kinds.Copilot
-          local status = require("copilot.api").status.data
-          return icon .. (status.message or "")
-        end,
-        cond = function()
-          local ok, clients = pcall(vim.lsp.get_active_clients, { name = "copilot", bufnr = 0 })
-          return ok and #clients > 0
-        end,
-        color = function()
-          local colors = {
-            [""] = fg("Special"),
-            ["Normal"] = fg("Special"),
-            ["Warning"] = fg("DiagnosticError"),
-            ["InProgress"] = fg("DiagnosticWarn"),
-          }
-          local status = require("copilot.api").status.data
-          return colors[status.status] or colors[""]
-        end,
-      },
+      -- {
+      --   function()
+      --     local icon = icons.kinds.Copilot
+      --     local status = require("copilot.api").status.data
+      --     return icon .. (status.message or "")
+      --   end,
+      --   cond = function()
+      --     local ok, clients = pcall(vim.lsp.get_active_clients, { name = "copilot", bufnr = 0 })
+      --     return ok and #clients > 0
+      --   end,
+      --   color = function()
+      --     local colors = {
+      --       [""] = fg("Special"),
+      --       ["Normal"] = fg("Special"),
+      --       ["Warning"] = fg("DiagnosticError"),
+      --       ["InProgress"] = fg("DiagnosticWarn"),
+      --     }
+      --     local status = require("copilot.api").status.data
+      --     return colors[status.status] or colors[""]
+      --   end,
+      -- },
       -- stylua: ignore
       -- {
       --   function() return require("noice").api.status.mode.get() end,

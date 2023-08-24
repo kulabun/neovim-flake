@@ -101,7 +101,8 @@
             luasnip
             # friendly-snippets
 
-            copilot-lua
+            # copilot-lua
+            sg-nvim
 
             null-ls-nvim
             nvim-lspconfig
